@@ -1,4 +1,6 @@
 var canvas, backgroundImage;
+var xVelocity = 0
+var yVelocity = 0
 
 var gameState = 0;
 var playerCount;

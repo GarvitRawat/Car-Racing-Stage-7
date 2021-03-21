@@ -59,30 +59,66 @@ class Game {
       for(var plr in allPlayers){
         //add 1 to the index for every loop
         index = index + 1 ;
+        x = 200 + (index * 200) + allPlayers[plr].xPos
 
         //position the cars a little away from each other in x direction
-        x = x + 200;
+        //x = x + 200;
+        //x = allPlayers[plr].xPos 
         //use data form the database to display the cars in y direction
         y = displayHeight - allPlayers[plr].distance;
         cars[index-1].x = x;
         cars[index-1].y = y;
 
         if (index === player.index){
+          fill("white")
+          strokeWeight(5)
+          circle(x, y, 85)
+          textSize(20)
+          fill("black")
+          textAlign(CENTER)
+          text(allPlayers[plr].name, cars[index-1].x, cars[index-1].y-75)
+          
+          
           cars[index - 1].shapeColor = "red";
           camera.position.x = displayWidth/2;
           camera.position.y = cars[index-1].y
         }
        
-        //textSize(15);
-        //text(allPlayers[plr].name + ": " + allPlayers[plr].distance, 120,display_position)
       }
 
     }
 
-    if(keyIsDown(UP_ARROW) && player.index !== null){
+    /*if(keyIsDown(UP_ARROW) && player.index !== null){
       player.distance +=10
       player.update();
     }
+    */
+   if(player.distance<3800){
+
+    if(keyIsDown(38)&& player.index !== null){
+      yVelocity = yVelocity + 0.9
+      if(keyIsDown(37)){
+        xVelocity = xVelocity-0.2
+      }
+      if(keyIsDown(39)){
+        xVelocity = xVelocity+0.2
+     }
+    }else if(keyIsDown(38) && yVelocity > 0 && player.index !==null){
+      yVelocity = yVelocity - 0.1
+      xVelocity = xVelocity * 0.9
+    }else{
+      yVelocity = yVelocity * 0.9
+      xVelocity = xVelocity * 0.9
+    }
+   }
+    
+    player.distance = player.distance + yVelocity
+    yVelocity = yVelocity * 0.9
+    
+    player.xPos = player.xPos + xVelocity
+    xVelocity = xVelocity * 0.98
+    player.update()
+    
     if(player.distance > 3860){
       gameState = 2;
     }
